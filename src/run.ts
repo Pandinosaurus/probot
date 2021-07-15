@@ -34,6 +34,7 @@ export async function run(
     logLevel: level,
     logFormat,
     logLevelInString,
+    logMessageKey,
     sentryDsn,
 
     // server options
@@ -57,6 +58,7 @@ export async function run(
     level,
     logFormat,
     logLevelInString,
+    logMessageKey,
     sentryDsn,
   };
 
@@ -125,13 +127,13 @@ export async function run(
       if (Array.isArray(pkg.apps)) {
         for (const appPath of pkg.apps) {
           const appFn = await resolveAppFunction(appPath);
-          server.load(appFn);
+          await server.load(appFn);
         }
       }
 
       const [appPath] = args;
       const appFn = await resolveAppFunction(appPath);
-      server.load(appFn);
+      await server.load(appFn);
     };
 
     server = new Server(serverOptions);
